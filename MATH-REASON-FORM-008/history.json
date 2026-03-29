@@ -17,5 +17,21 @@
     "outcome": "waiting",
     "details": {},
     "timestamp": "2026-03-29T21:24:25.119179+00:00"
+  },
+  {
+    "iteration": 1,
+    "action": "auto_verify",
+    "actor": "agent_verifier",
+    "outcome": "passed",
+    "details": {},
+    "timestamp": "2026-03-29T21:36:29.735496+00:00"
+  },
+  {
+    "iteration": 1,
+    "action": "merged_to_main",
+    "actor": "temporal",
+    "outcome": "accepted",
+    "details": {},
+    "timestamp": "2026-03-29T21:36:29.735521+00:00"
   }
 ]
