@@ -1,0 +1,24 @@
+{
+  "task_id": "MATH-REASON-FORM-001",
+  "passed": true,
+  "timestamp": "2026-03-28T12:00:00Z",
+  "stages": {
+    "schema": {
+      "passed": true
+    },
+    "verification_code_execution": {
+      "passed": true,
+      "output": "All verification checks passed."
+    },
+    "e1_hardness": {
+      "passed": true,
+      "model": "Kimi K2.5",
+      "judge_verdict": "incorrect"
+    },
+    "f1_teachability": {
+      "passed": true,
+      "model": "Kimi K2.5",
+      "judge_verdict": "correct"
+    }
+  }
+}
