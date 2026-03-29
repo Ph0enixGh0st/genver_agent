@@ -10,5 +10,16 @@
       "fields_to_fix": []
     },
     "timestamp": "2026-03-29T23:47:11.595066+00:00"
+  },
+  {
+    "iteration": 2,
+    "action": "expert_review",
+    "actor": "expert",
+    "outcome": "approve",
+    "details": {
+      "expert_id": "f0a8e9e9d8cbb63a9a3c8df41b2d394d",
+      "comments": "this is corect test"
+    },
+    "timestamp": "2026-03-29T23:53:21.290927+00:00"
   }
 ]
