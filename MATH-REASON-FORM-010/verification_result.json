@@ -1,0 +1,10 @@
+{
+  "task_id": "MATH-REASON-FORM-010",
+  "passed": true,
+  "timestamp": "2026-03-30T03:30:00Z",
+  "stages": {
+    "schema": {
+      "passed": true
+    }
+  }
+}
