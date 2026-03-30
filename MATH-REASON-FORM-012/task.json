@@ -60,7 +60,7 @@
     "originality_declaration": "Original problem created for MAI STEM benchmark. Not sourced from existing published benchmark datasets.",
     "nearest_benchmark_family": "GPQA"
   },
-  "comment": "Fixed after verification failure - made problem harder.",
+  "comment": "Fixed again after second expert redo - round 3.",
   "lean_verification": {
     "status": "pending",
     "lean_code": "",
