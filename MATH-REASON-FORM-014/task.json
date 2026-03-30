@@ -60,7 +60,7 @@
     "originality_declaration": "Original problem created for MAI STEM benchmark. Not sourced from existing published benchmark datasets.",
     "nearest_benchmark_family": "GPQA"
   },
-  "comment": "Problem is well-posed and deterministic. Steps 1\u20135 form a clean chain: the counting reformulation in Step 1 is standard, Mednykh's formula in Step 2 is the right tool, and the S\u2083 irrep data in Step 3 is correct (dims 1, 1, 2). The substitution in Step 4 and simplification in Step 5 both hold \u2014 I independently verified the key identity 6^{2g\u22121}/4^{g\u22121} = 2\u00b73^{2g\u22121} by factoring into prime powers. Step 6's checks are solid: the g = 1 count of 18 matches the commuting-pairs sum via centralizer sizes, and g = 0 giving 1 is consistent with \u03c0\u2081(S\u00b2) being trivial. Code passes all assertions \u2014 brute force at g = 1, 2 agrees with the formula, and Mednykh exact arithmetic confirms it through g = 30. No errors anywhere. Difficulty is Graduate, given the reliance on Mednykh's formula and representation theory.",
+  "comment": "Fixed after expert redo - pre-fill test.",
   "lean_verification": {
     "status": "pending",
     "lean_code": "",
