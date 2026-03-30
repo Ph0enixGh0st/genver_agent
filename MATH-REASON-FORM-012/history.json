@@ -33,5 +33,17 @@
       }
     },
     "timestamp": "2026-03-30T00:01:29.175727+00:00"
+  },
+  {
+    "iteration": 2,
+    "action": "expert_review",
+    "actor": "expert",
+    "outcome": "redo",
+    "details": {
+      "expert_id": "f0a8e9e9d8cbb63a9a3c8df41b2d394d",
+      "comments": "another redo",
+      "fields_to_fix": []
+    },
+    "timestamp": "2026-03-30T00:10:59.670109+00:00"
   }
 ]
