@@ -1,7 +1,7 @@
 {
   "task_id": "MATH-REASON-FORM-012",
   "passed": true,
-  "timestamp": "2026-03-30T07:30:00Z",
+  "timestamp": "2026-03-30T08:00:00Z",
   "stages": {
     "schema": {
       "passed": true
@@ -10,6 +10,9 @@
       "passed": true
     },
     "e1_hardness": {
+      "passed": true
+    },
+    "f1_teachability": {
       "passed": true
     }
   }
