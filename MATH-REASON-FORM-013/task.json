@@ -1,0 +1,70 @@
+{
+  "problem_id": "MATH-REASON-FORM-013",
+  "domain": "Mathematics",
+  "subdomain": "Mathematical Reasoning",
+  "problem_cluster": "Mathematics / Reasoning / Formula",
+  "question_type": "Reasoning",
+  "answer_type": "Formula",
+  "answer_format": "formula",
+  "benchmark_family": "GPQA",
+  "difficulty_level": "Graduate",
+  "failing_model": "Kimi K2.5 (Moonshot AI)",
+  "problem": "Let $\\Sigma_g$ denote the closed orientable surface of genus $g \\geq 1$, with fundamental group\n$$\\pi_1(\\Sigma_g) = \\langle\\, a_1, b_1, \\ldots, a_g, b_g \\;\\mid\\; \\prod_{i=1}^{g}[a_i, b_i] = 1 \\,\\rangle,$$\nwhere $[a_i, b_i] = a_i b_i a_i^{-1} b_i^{-1}$ denotes the commutator. Let $S_3$ be the symmetric group on three elements. Determine the number $N(g)$ of group homomorphisms from $\\pi_1(\\Sigma_g)$ to $S_3$. Express your answer as a closed-form formula in $g$.",
+  "step_by_step_solution": [
+    "Step 1 (Surface group presentation and counting reformulation): A group homomorphism $\\varphi: \\pi_1(\\Sigma_g) \\to S_3$ is determined by the images $\\varphi(a_i) = \\alpha_i$ and $\\varphi(b_i) = \\beta_i$ in $S_3$, subject to the single relation $\\prod_{i=1}^g [\\alpha_i, \\beta_i] = e$. Therefore $N(g)$ equals the number of tuples $(\\alpha_1, \\beta_1, \\ldots, \\alpha_g, \\beta_g) \\in S_3^{2g}$ satisfying $[\\alpha_1, \\beta_1] \\cdots [\\alpha_g, \\beta_g] = e$.",
+    "Step 2 (Character-theoretic formula / Mednykh's formula): For any finite group $G$ and any genus $g \\geq 0$, the number of solutions to $\\prod_{i=1}^g [\\alpha_i, \\beta_i] = e$ in $G^{2g}$ is given by\n$$N(g) = |G|^{2g-1} \\sum_{\\rho \\in \\mathrm{Irr}(G)} (\\dim \\rho)^{2-2g}.$$\nThis follows from expanding the equation using the character orthogonality relations: the number of pairs $(a, b) \\in G^2$ with $[a, b] = c$ can be expressed as $|G| \\sum_{\\rho} \\frac{\\chi_\\rho(c)}{\\dim \\rho}$, and iterating this convolution $g$ times with the constraint that the product of commutators equals $e$ yields the formula above.",
+    "Step 3 (Irreducible representations of $S_3$): The symmetric group $S_3$ has exactly three irreducible representations: the trivial representation (dimension 1), the sign representation (dimension 1), and the standard representation (dimension 2). Thus $|S_3| = 6$ and the dimensions are $d_1 = 1, d_2 = 1, d_3 = 2$.",
+    "Step 4 (Substitution): Applying the formula:\n$$N(g) = 6^{2g-1}\\bigl(1^{2-2g} + 1^{2-2g} + 2^{2-2g}\\bigr) = 6^{2g-1}\\bigl(2 + 2^{2-2g}\\bigr) = 6^{2g-1}\\Bigl(2 + \\frac{1}{4^{g-1}}\\Bigr).$$",
+    "Step 5 (Algebraic simplification): Simplify the second term:\n$$6^{2g-1} \\cdot \\frac{1}{4^{g-1}} = \\frac{(2 \\cdot 3)^{2g-1}}{2^{2(g-1)}} = \\frac{2^{2g-1} \\cdot 3^{2g-1}}{2^{2g-2}} = 2 \\cdot 3^{2g-1}.$$\nTherefore:\n$$N(g) = 2 \\cdot 6^{2g-1} + 2 \\cdot 3^{2g-1} = 2\\bigl(6^{2g-1} + 3^{2g-1}\\bigr).$$",
+    "Step 6 (Verification): For $g = 1$: $N(1) = 2(6 + 3) = 18$. This equals $|\\{(a, b) \\in S_3^2 : ab = ba\\}| = \\sum_{g \\in S_3} |C_{S_3}(g)| = 6 + 2 + 2 + 2 + 3 + 3 = 18$. For $g = 0$ (the sphere, $\\pi_1 = \\{1\\}$): $N(0) = 2(6^{-1} + 3^{-1}) = 2 \\cdot \\tfrac{1}{2} = 1$, consistent with the unique trivial homomorphism."
+  ],
+  "code_solution": "```python\nfrom itertools import permutations\nfrom fractions import Fraction\n\ndef compose(a, b):\n    return tuple(a[b[i]] for i in range(3))\n\ndef inverse(a):\n    inv = [0]*3\n    for i in range(3):\n        inv[a[i]] = i\n    return tuple(inv)\n\ndef commutator(a, b):\n    return compose(compose(a, b), compose(inverse(a), inverse(b)))\n\nS3 = list(permutations(range(3)))\nidentity = (0, 1, 2)\n\ndef count_hom_brute_force(g):\n    if g == 1:\n        return sum(1 for a in S3 for b in S3 if commutator(a, b) == identity)\n    if g == 2:\n        count = 0\n        for a1 in S3:\n            for b1 in S3:\n                c1 = commutator(a1, b1)\n                for a2 in S3:\n                    for b2 in S3:\n                        if compose(c1, commutator(a2, b2)) == identity:\n                            count += 1\n        return count\n    raise ValueError('g too large for brute force')\n\ndef formula(g):\n    return 2 * (6**(2*g - 1) + 3**(2*g - 1))\n\ndef mednykh_exact(g):\n    \"\"\"Mednykh formula using exact rational arithmetic.\n    N(g) = |G|^{2g-1} * sum_{rho in Irr(G)} (dim rho)^{2-2g}\n    For S_3: dims = [1, 1, 2], |G| = 6.\"\"\"\n    dims = [1, 1, 2]\n    s = sum(Fraction(1, d**(2*g - 2)) for d in dims)\n    return int(Fraction(6**(2*g - 1), 1) * s)\n\n# Brute force checks for g=1,2\nfor g in [1, 2]:\n    bf = count_hom_brute_force(g)\n    fm = formula(g)\n    assert bf == fm, f'Mismatch at g={g}: brute_force={bf}, formula={fm}'\n    print(f'g={g}: brute_force={bf}, formula={fm} -- MATCH')\n\n# Exact Mednykh vs simplified formula for g=1..30\nfor g in range(1, 31):\n    m = mednykh_exact(g)\n    f = formula(g)\n    assert m == f, f'Mismatch at g={g}: mednykh={m}, formula={f}'\n\n# Verify the algebraic identity: 6^{2g-1}/4^{g-1} = 2*3^{2g-1}\nfor g in range(1, 31):\n    lhs = Fraction(6**(2*g-1), 4**(g-1))\n    rhs = 2 * 3**(2*g-1)\n    assert lhs == rhs, f'Algebra identity failed at g={g}'\n\nprint('All verification checks passed.')\nprint('Answer: N(g) = 2*(6^{2g-1} + 3^{2g-1})')\n```",
+  "verification_code": "from itertools import permutations\nfrom fractions import Fraction\n\ndef compose(a, b):\n    return tuple(a[b[i]] for i in range(3))\n\ndef inverse(a):\n    inv = [0]*3\n    for i in range(3):\n        inv[a[i]] = i\n    return tuple(inv)\n\ndef commutator(a, b):\n    return compose(compose(a, b), compose(inverse(a), inverse(b)))\n\nS3 = list(permutations(range(3)))\nidentity = (0, 1, 2)\n\ndef count_hom_brute_force(g):\n    if g == 1:\n        return sum(1 for a in S3 for b in S3 if commutator(a, b) == identity)\n    if g == 2:\n        count = 0\n        for a1 in S3:\n            for b1 in S3:\n                c1 = commutator(a1, b1)\n                for a2 in S3:\n                    for b2 in S3:\n                        if compose(c1, commutator(a2, b2)) == identity:\n                            count += 1\n        return count\n    raise ValueError('g too large for brute force')\n\ndef formula(g):\n    return 2 * (6**(2*g - 1) + 3**(2*g - 1))\n\ndef mednykh_exact(g):\n    \"\"\"Mednykh formula using exact rational arithmetic.\n    N(g) = |G|^{2g-1} * sum_{rho in Irr(G)} (dim rho)^{2-2g}\n    For S_3: dims = [1, 1, 2], |G| = 6.\"\"\"\n    dims = [1, 1, 2]\n    s = sum(Fraction(1, d**(2*g - 2)) for d in dims)\n    return int(Fraction(6**(2*g - 1), 1) * s)\n\n# Brute force checks for g=1,2\nfor g in [1, 2]:\n    bf = count_hom_brute_force(g)\n    fm = formula(g)\n    assert bf == fm, f'Mismatch at g={g}: brute_force={bf}, formula={fm}'\n    print(f'g={g}: brute_force={bf}, formula={fm} -- MATCH')\n\n# Exact Mednykh vs simplified formula for g=1..30\nfor g in range(1, 31):\n    m = mednykh_exact(g)\n    f = formula(g)\n    assert m == f, f'Mismatch at g={g}: mednykh={m}, formula={f}'\n\n# Verify the algebraic identity: 6^{2g-1}/4^{g-1} = 2*3^{2g-1}\nfor g in range(1, 31):\n    lhs = Fraction(6**(2*g-1), 4**(g-1))\n    rhs = 2 * 3**(2*g-1)\n    assert lhs == rhs, f'Algebra identity failed at g={g}'\n\nprint('All verification checks passed.')\nprint('Answer: N(g) = 2*(6^{2g-1} + 3^{2g-1})')",
+  "final_answer": "$N(g) = 2\\bigl(6^{2g-1} + 3^{2g-1}\\bigr)$",
+  "failure_mode_tags": [
+    "multi_step_reasoning",
+    "symbolic_computation",
+    "symbolic_answer"
+  ],
+  "error_detection_correction": [
+    {
+      "error_type": "symbolic_equivalence",
+      "description": "Answer formula is mathematically correct but written in non-canonical form",
+      "detection_method": "Symbolic simplification via sympy.simplify() and comparison"
+    },
+    {
+      "error_type": "code_answer_mismatch",
+      "description": "Verification code output does not match declared final_answer",
+      "detection_method": "Execute code in sandbox, compare stdout with final_answer"
+    },
+    {
+      "error_type": "non_determinism",
+      "description": "Code uses randomness without fixed seed, producing variable outputs",
+      "detection_method": "Run code 3 times, check all outputs identical"
+    },
+    {
+      "error_type": "latex_malformation",
+      "description": "Unbalanced $ delimiters or bare LaTeX commands in solution steps",
+      "detection_method": "Regex check for $ balance and bare commands outside delimiters"
+    },
+    {
+      "error_type": "logical_gap",
+      "description": "Missing justification for a key derivation step",
+      "detection_method": "Human review: each step must follow from previous steps or stated assumptions"
+    }
+  ],
+  "provenance": {
+    "source": "original",
+    "generated_by": "Toloka MAI STEM pipeline",
+    "contamination_status": "clean",
+    "originality_declaration": "Original problem created for MAI STEM benchmark. Not sourced from existing published benchmark datasets.",
+    "nearest_benchmark_family": "GPQA"
+  },
+  "comment": "Problem is well-posed and deterministic. Steps 1\u20135 form a clean chain: the counting reformulation in Step 1 is standard, Mednykh's formula in Step 2 is the right tool, and the S\u2083 irrep data in Step 3 is correct (dims 1, 1, 2). The substitution in Step 4 and simplification in Step 5 both hold \u2014 I independently verified the key identity 6^{2g\u22121}/4^{g\u22121} = 2\u00b73^{2g\u22121} by factoring into prime powers. Step 6's checks are solid: the g = 1 count of 18 matches the commuting-pairs sum via centralizer sizes, and g = 0 giving 1 is consistent with \u03c0\u2081(S\u00b2) being trivial. Code passes all assertions \u2014 brute force at g = 1, 2 agrees with the formula, and Mednykh exact arithmetic confirms it through g = 30. No errors anywhere. Difficulty is Graduate, given the reliance on Mednykh's formula and representation theory.",
+  "lean_verification": {
+    "status": "pending",
+    "lean_code": "",
+    "lean_template": "import Mathlib\n\n/-- Let $\\Sigma_g$ denote the closed orientable surface of genus $g \\geq 1$, with fundamental group\n$$\\pi_1(\\Sigma_g) = \\langle\\, a_1, b_1, \\ldots, a_g, b_g \\;\\mid\\; \\prod_{i=1}^{g}[a_i, b_i] = 1 \\,\\rangl... -/\ntheorem math_reason_form_001 : sorry := by\n  -- TODO: Formalize and prove\n  -- Expected answer: $N(g) = 2\\bigl(6^{2g-1} + 3^{2g-1}\\bigr)$\n  sorry\n",
+    "guidance": "Formalize the key identity/formula as a Lean theorem. | Use Mathlib for standard mathematical structures. | Lean 4 with Mathlib. Import: import Mathlib"
+  }
+}
