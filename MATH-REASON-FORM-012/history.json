@@ -17,5 +17,21 @@
     "outcome": "waiting",
     "details": {},
     "timestamp": "2026-03-29T23:59:25.373740+00:00"
+  },
+  {
+    "iteration": 1,
+    "action": "auto_verify",
+    "actor": "agent_verifier",
+    "outcome": "failed",
+    "details": {
+      "failed_stages": {
+        "e1_hardness": {
+          "passed": false,
+          "model": "GPT-5.2",
+          "reason": "Model solved it without solution"
+        }
+      }
+    },
+    "timestamp": "2026-03-30T00:01:29.175727+00:00"
   }
 ]
