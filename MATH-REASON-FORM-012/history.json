@@ -45,5 +45,16 @@
       "fields_to_fix": []
     },
     "timestamp": "2026-03-30T00:10:59.670109+00:00"
+  },
+  {
+    "iteration": 3,
+    "action": "expert_review",
+    "actor": "expert",
+    "outcome": "approve",
+    "details": {
+      "expert_id": "f0a8e9e9d8cbb63a9a3c8df41b2d394d",
+      "comments": "good now"
+    },
+    "timestamp": "2026-03-30T00:14:53.271707+00:00"
   }
 ]
